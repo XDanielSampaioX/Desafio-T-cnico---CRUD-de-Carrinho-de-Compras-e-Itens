@@ -2,10 +2,14 @@ package com.desafio.tecnico.crud_carrinho_itens.model;
 
 import java.time.LocalDateTime;
 
+import com.desafio.tecnico.crud_carrinho_itens.model.enums.StatusItemCarrinho;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Data
 public class ItemCarrinho {
@@ -22,15 +26,15 @@ public class ItemCarrinho {
     private Produto produto;
 
     @Column(nullable = false)
-    @NotBlank(message = "quantidade de itens no carrinho não pode ser negativa.")
+//    @NotBlank(message = "quantidade de itens no carrinho não pode ser negativa.")
     private int quantidade;
 
     @Column(nullable = false, length = 20)
-    private String status;
+    private StatusItemCarrinho status = StatusItemCarrinho.ADIONADO;
 
-    @Column(nullable = false)
-    private LocalDateTime criadoEm;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime criadoEm = LocalDateTime.now();
 
-    @Column(nullable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime atualizadoEm;
 }

@@ -2,7 +2,8 @@ package com.desafio.tecnico.crud_carrinho_itens.model;
 
 import java.time.LocalDateTime;
 
-import com.desafio.tecnico.crud_carrinho_itens.model.enums.Status;
+import com.desafio.tecnico.crud_carrinho_itens.model.enums.StatusCarrinho;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,11 +25,11 @@ public class Carrinho {
 
     @Enumerated(EnumType.STRING)
 //    @Column(nullable = false, length = 20)
-    private Status status;
+    private StatusCarrinho status = StatusCarrinho.ATIVO;
 
-//    @Column(nullable = false)
-    private LocalDateTime criadoEm;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime criadoEm = LocalDateTime.now();
 
-//    @Column(nullable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime atualizadoEm;
 }

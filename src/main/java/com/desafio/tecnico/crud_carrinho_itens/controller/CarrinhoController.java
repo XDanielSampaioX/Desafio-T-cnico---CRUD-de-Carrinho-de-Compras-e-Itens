@@ -2,69 +2,78 @@ package com.desafio.tecnico.crud_carrinho_itens.controller;
 
 import java.util.List;
 
+import com.desafio.tecnico.crud_carrinho_itens.model.ItemCarrinho;
+import com.desafio.tecnico.crud_carrinho_itens.service.ItemCarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.desafio.tecnico.crud_carrinho_itens.model.Carrinho;
 import com.desafio.tecnico.crud_carrinho_itens.service.CarrinhoService;
 
-import static org.springframework.http.HttpStatus.CREATED;
-
 @RestController
 @RequestMapping("/carrinhos")
-public class CarrinhoController{
+public class CarrinhoController {
 
-    
+
     @Autowired
     private CarrinhoService carrinhoService;
-    
+
+    @Autowired
+    private ItemCarrinhoService itemCarrinhoService;
+
 
     @PostMapping
-    public ResponseEntity<Carrinho> salvar(@RequestBody Carrinho carrinho) {
-        return ResponseEntity.status(CREATED).body(carrinhoService.salvar(carrinho));
+    public Carrinho salvar(@RequestBody Carrinho carrinho) {
+        return carrinhoService.salvar(carrinho);
     }
 
     @PutMapping("/{id}")
     public Carrinho atualizar(@PathVariable long id, @RequestBody Carrinho carrinho) {
-        try {
-            return carrinhoService.atualizar(carrinho);
-        } catch (Exception e) {
-            // Log do erro
-            e.printStackTrace();
-            return null;
-        }
+        return carrinhoService.atualizar(id, carrinho);
     }
 
     @GetMapping
     public List<Carrinho> listarTodos() {
-        try {
-            return carrinhoService.listarTodos();
-        } catch (Exception e) {
-            // Log do erro
-            e.printStackTrace();
-            return null;
-        }
+        return carrinhoService.listarTodos();
     }
 
     @GetMapping("/{id}")
     public Carrinho buscar(@PathVariable long id) {
-        try {
-            return carrinhoService.buscar(id);
-        } catch (Exception e) {
-            // Log do erro
-            e.printStackTrace();
-            return null;
-        }
+        return carrinhoService.buscar(id);
     }
 
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
-        try {
-            carrinhoService.deletar(id);
-        } catch (Exception e) {
-            // Log do erro
-            e.printStackTrace();
-        }
+        carrinhoService.deletar(id);
     }
+
+
+    // --------------------------------------------------
+    // Itens
+    //---------------------------------------------------
+
+    @PostMapping("/{id}/itens")
+    public ItemCarrinho salvar(@RequestBody ItemCarrinho itemCarrinho) {
+        return itemCarrinhoService.salvar(itemCarrinho);
+    }
+
+//    @PutMapping("/{id}/itens/{idItem}")
+//    public ItemCarrinho atualizar(@PathVariable Long id, @PathVariable Long idItem, @RequestBody int quantidade) {
+//        return itemCarrinhoService.atualizar(id, idItem, quantidade);
+//    }
+//
+//    @GetMapping("/{id}/itens")
+//    public List<ItemCarrinho> listarTodosItens() {
+//        return itemCarrinhoService.listarTodosItens();
+//    }
+//
+//    @GetMapping("/{id}/itens/{idItem}")
+//    public ItemCarrinho buscarItem(@PathVariable long id, @PathVariable long idItem) {
+//        return itemCarrinhoService.buscarItem(id);
+//    }
+//
+//    @DeleteMapping("/{id}/itens/{id}")
+//    public void deletar(@PathVariable Long id) {
+//        carrinhoService.deletar(id);
+//    }
 }
